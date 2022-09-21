@@ -28,16 +28,16 @@ export const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  color: #414141;
+  color: ${({ theme }) => theme.text};
 `;
 export const Name = styled.h5`
   font-weight: 500;
   margin: 0;
   font-size: 18px;
-  color: #414141;
+  color: ${({ theme }) => theme.text};
 `;
 export const Email = styled.div``;
 
 export const H3 = styled.h3`
-  color: #414141;
+  color: ${({ theme }) => theme.text};
 `;

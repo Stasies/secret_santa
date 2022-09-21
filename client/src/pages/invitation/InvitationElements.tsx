@@ -15,6 +15,6 @@ export const Wrapper = styled.div`
 `;
 export const H1 = styled.h1`
   font-size: 40px;
-  color: #414141;
+  color: ${({ theme }) => theme.text};
 `;
 export const P = styled.p``;

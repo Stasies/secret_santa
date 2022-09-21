@@ -1,14 +1,7 @@
 import React, { useReducer, useRef } from "react";
 import { groupReducer, initialState } from "../../../../utils/groupReducer";
-import {
-  Form,
-  H1,
-  InputContainer,
-  Input,
-  Button,
-  P,
-  H5,
-} from "../../EditElements";
+import { Form, InputContainer, Input, Button, P } from "../../EditElements";
+import { H1 } from "../../../../shared/Shared";
 import axios from "axios";
 
 const Budget = () => {

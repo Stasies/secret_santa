@@ -1,13 +1,7 @@
 import React, { useReducer, useRef } from "react";
-import {
-  Form,
-  H1,
-  InputContainer,
-  Input,
-  Button,
-  H5,
-} from "../../EditElements";
+import { Form, InputContainer, Input, Button, H5 } from "../../EditElements";
 import axios from "axios";
+import { H1 } from "../../../../shared/Shared";
 import { groupReducer, initialState } from "../../../../utils/groupReducer";
 
 const EditDate = () => {

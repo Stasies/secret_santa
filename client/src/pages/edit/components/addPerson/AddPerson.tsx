@@ -1,15 +1,8 @@
 import axios from "axios";
 import React, { FC, useRef, useReducer } from "react";
 import { groupReducer, initialState } from "../../../../utils/groupReducer";
-import {
-  Form,
-  H1,
-  InputContainer,
-  Input,
-  Button,
-  H5,
-  P,
-} from "../../EditElements";
+import { Form, InputContainer, Input, Button, H5, P } from "../../EditElements";
+import { H1 } from "../../../../shared/Shared";
 
 const AddPerson: FC = () => {
   const name = useRef<HTMLInputElement>(null);

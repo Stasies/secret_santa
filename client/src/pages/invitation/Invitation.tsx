@@ -1,12 +1,12 @@
 import axios from "axios";
-import e from "express";
-import { getgroups } from "process";
+
 import React, { useEffect, useState } from "react";
 import First from "../../components/steps/First";
 import Second from "../../components/steps/Second";
 import Third from "../../components/steps/Third";
+import PageTemplate from "../PageTemplate";
 
-import { Container, Wrapper, H1, P } from "./InvitationElements";
+import { H1 } from "./InvitationElements";
 
 const Invitation = () => {
   const [element, setElement] = useState(<First />);
@@ -37,13 +37,10 @@ const Invitation = () => {
     getGroup();
   }, [groupId]);
   return (
-    <Container>
-      <Wrapper>
-        <H1>Join our gift exchange</H1>
-
-        {element}
-      </Wrapper>
-    </Container>
+    <PageTemplate>
+      <H1>Join our gift exchange</H1>
+      {element}
+    </PageTemplate>
   );
 };
 

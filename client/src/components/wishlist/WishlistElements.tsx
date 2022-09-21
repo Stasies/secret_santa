@@ -23,7 +23,7 @@ export const H3 = styled.h3`
   font-size: 20px;
 `;
 export const Main = styled.div`
-  color: #141414;
+  color: ${({ theme }) => theme.text};
   width: 100%;
   min-height: 120px;
   display: flex;
@@ -103,7 +103,7 @@ export const Wish = styled.div`
   background-color: ${({ theme }) => theme.bg};
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
   font-size: 18px;
-  color: #414141;
+  color: ${({ theme }) => theme.text};
   .icon {
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 50%;

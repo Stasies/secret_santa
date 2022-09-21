@@ -17,6 +17,9 @@ export const Input = styled.input`
   }
 `;
 
+export const P = styled.p`
+  margin: 0;
+`;
 export const B = styled.a`
   font-weight: 16px;
   color: ${({ theme }) => theme.bright};

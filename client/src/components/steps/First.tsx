@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 const First = () => {
   const [state, dispatch] = useReducer(groupReducer, initialState);
-  const navigate = useNavigate();
   return (
     <Container>
       <P>

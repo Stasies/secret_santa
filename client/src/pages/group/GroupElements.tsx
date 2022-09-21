@@ -10,13 +10,13 @@ export const Wrapper = styled.div`
   max-width: 365px;
 `;
 export const H1 = styled.h1`
-  color: #414141;
+  color: ${({ theme }) => theme.text};
   font-size: 40px;
 `;
 export const P = styled.p``;
 
 export const About = styled.div`
-  color: #414141;
+  color: ${({ theme }) => theme.text};
   margin-bottom: 60px;
 `;
 export const User = styled.div`
@@ -45,7 +45,7 @@ export const Section = styled.div`
   padding: 40px 6px;
 `;
 export const Title = styled.div`
-  color: #414141;
+  color: ${({ theme }) => theme.text};
   font-size: 20px;
   font-weight: 600;
   display: flex;

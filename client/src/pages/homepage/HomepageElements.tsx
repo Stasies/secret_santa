@@ -11,6 +11,6 @@ export const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 export const H1 = styled.h1`
-  color: #414141;
+  color: ${({ theme }) => theme.text};
 `;
 export const P = styled.p``;

@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
   max-width: 365px;
 `;
 export const H1 = styled.h1`
-  color: #414141;
+  color: ${({ theme }) => theme.text};
   font-size: 40px;
   margin: 10px 0;
 `;
@@ -67,11 +67,11 @@ export const H5 = styled.h5`
   font-size: 18px;
   line-height: 6px;
   font-weight: 600;
-  color: #414141;
+  color: ${({ theme }) => theme.text};
   margin: 18px 0;
 `;
 export const P = styled.p`
-  color: #414141;
+  color: ${({ theme }) => theme.text};
   font-size: 17px;
   line-height: 26px;
   margin: 0 0 32px;

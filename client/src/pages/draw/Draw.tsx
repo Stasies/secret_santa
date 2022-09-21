@@ -1,26 +1,22 @@
 import React, { useReducer, useEffect, useState } from "react";
 import Wishlist from "../../components/wishlist/Wishlist";
-import {
-  Container,
-  Wrapper,
-  H1,
-  H2,
-  NameContainer,
-  Section,
-  Title,
-  P,
-} from "./DrawElements";
-import { B } from "../../shared/Shared";
+import { H2, NameContainer, Section, Title, P } from "./DrawElements";
+import { H1 } from "../../shared/Shared";
+import { Container, Wrapper, Main, B } from "../../shared/Shared";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { initialUserState, userReducer } from "../../utils/userReducer";
 import { groupReducer, initialState } from "../../utils/groupReducer";
 import axios from "axios";
+import Menu from "../../components/menu/Menu";
+import UserIcon from "../../components/userIcon/UserIcon";
+import PageTemplate from "../PageTemplate";
 
 const Draw = () => {
   const [userState, userDispatch] = useReducer(userReducer, initialUserState);
   const [state, dispatch] = useReducer(groupReducer, initialState);
   const [randomNumber, setRandomNumber] = useState(0);
   const [filteredNames, setFilteredNames] = useState([]);
+  const [open, setOpen] = useState(false);
   const randomPerson = (min: number, max: number) => {
     if (randomNumber === 0) {
       setRandomNumber(Math.floor(Math.random() * (max - min + 1)) + min);
@@ -66,28 +62,26 @@ const Draw = () => {
 
   console.log(userState);
   return (
-    <Container>
-      <Wrapper>
-        <H1>My drawn name</H1>
-        <NameContainer>
-          <H2>{userState.selected_person}</H2>
-        </NameContainer>
-        <Wishlist />
-        <Section>
-          <Title>
-            {" "}
-            <PermIdentityIcon className="icon" />
-            Hobbies and interests
-          </Title>
-          <P>
-            {userState.selected_person} has not added any hobbies or interests
-          </P>
-        </Section>
+    <PageTemplate>
+      <H1>My drawn name</H1>
+      <NameContainer>
+        <H2>{userState.selected_person}</H2>
+      </NameContainer>
+      <Wishlist />
+      <Section>
+        <Title>
+          {" "}
+          <PermIdentityIcon className="icon" />
+          Hobbies and interests
+        </Title>
         <P>
-          <B href={`/${state._id}/${userState._id}`}>Visit the group page</B>
+          {userState.selected_person} has not added any hobbies or interests
         </P>
-      </Wrapper>
-    </Container>
+      </Section>
+      <P>
+        <B href={`/${state._id}/${userState._id}`}>Visit the group page</B>
+      </P>
+    </PageTemplate>
   );
 };
 

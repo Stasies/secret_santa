@@ -14,6 +14,7 @@ import DrawnNames from "./pages/drawnnames/DrawnNames";
 import Wishpage from "./pages/wishlist/Wishpage";
 import { groupReducer, initialState } from "./utils/groupReducer";
 import { initialUserState, userReducer } from "./utils/userReducer";
+import Userpage from "./pages/userpage/Userpage";
 
 function App() {
   const [state] = useReducer(groupReducer, initialState);
@@ -35,6 +36,7 @@ function App() {
             <Route index element={<Homepage />} />
             <Route path=":groupId/step:n" element={<Invitation />} />
             <Route path=":groupId/:userId" element={<Group />} />
+            <Route path="user" element={<Userpage />} />
 
             <Route
               path=":groupId/:userId/draw"
