@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
 import usersRoute from "./routes/users.js";
 import groupRoute from "./routes/groups.js";
+import giftRoute from "./routes/gifts.js";
 import cors from "cors";
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/groups", groupRoute);
+app.use("/api/gifts", giftRoute);
 
 app.use((error, req, res, next) => {
   const errorStatus = error.status || 500;

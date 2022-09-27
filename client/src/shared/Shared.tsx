@@ -4,11 +4,12 @@ export const Container = styled.div`
   width: 100%;
   min-height: 100vh;
   background-color: #faf9f9;
+  background-color: ${({ theme }) => theme.bg};
   height: fit-content;
 `;
 export const Wrapper = styled.div`
   height: fit-content;
-  padding: 60px 170px;
+  padding: 0 170px 60px;
   width: 100%;
   height: 100%;
   display: flex;

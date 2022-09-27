@@ -15,12 +15,13 @@ import CreateIcon from "@mui/icons-material/Create";
 import { clickOptions } from "@testing-library/user-event/dist/click";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-declare module "axios" {
-  export interface AxiosRequestConfig {
-    user_name: string;
-    group: any;
-  }
-}
+// declare module "axios" {
+//   export interface AxiosRequestConfig {
+//     categories: string;
+//     user_name: string;
+//     group: any;
+//   }
+// }
 
 const Wishlist = () => {
   const [user, userDispatch] = useReducer(userReducer, initialUserState);
@@ -97,8 +98,8 @@ const Wishlist = () => {
         )}
         <List>
           {category == "wishlist" &&
-            user.wish_list.map((wish: string) => (
-              <Wish>
+            user.wish_list.map((wish: string, index: number) => (
+              <Wish key={index}>
                 {wish}
                 <CloseIcon className="icon" />
               </Wish>
@@ -109,8 +110,8 @@ const Wishlist = () => {
         )}
         <List>
           {category === "draw" &&
-            selectedPerson.wish_list?.map((wish: string) => (
-              <Wish>
+            selectedPerson.wish_list?.map((wish: string, index: number) => (
+              <Wish key={index}>
                 {wish}
                 <CloseIcon className="icon" />
               </Wish>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import GiftFinder from "../components/giftFinder/GiftFinder";
 import Header from "../components/header/Header";
 import Menu from "../components/menu/Menu";
 import UserIcon from "../components/userIcon/UserIcon";
@@ -7,7 +8,7 @@ import { Container, Wrapper, Main } from "../shared/Shared";
 type pageProps = {
   children: React.ReactNode;
 };
-const PageTemplate = ({ children }: pageProps) => {
+const WishPageTemplate = ({ children }: pageProps) => {
   const [open, setOpen] = useState(false);
   return (
     <Container>
@@ -17,9 +18,10 @@ const PageTemplate = ({ children }: pageProps) => {
       </Header>
       <Wrapper>
         <Main>{children}</Main>
+        <GiftFinder />
       </Wrapper>
     </Container>
   );
 };
 
-export default PageTemplate;
+export default WishPageTemplate;
