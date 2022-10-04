@@ -23,7 +23,7 @@ export const Main = styled.div`
   min-width: 365px;
 `;
 export const H1 = styled.h1`
-  font-size: 40px;
+  font-size: 36px;
   color: ${({ theme }) => theme.text};
   margin-top: 0;
 `;

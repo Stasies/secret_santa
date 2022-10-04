@@ -17,15 +17,13 @@ import CreateIcon from "@mui/icons-material/Create";
 import { clickOptions } from "@testing-library/user-event/dist/click";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-// declare module "axios" {
-//   export interface AxiosRequestConfig {
-//     categories: string;
-//     user_name: string;
-//     group: any;
-//   }
-// }
 
-const Wishlist = () => {
+const Wishlist = ({
+  wishlist,
+  setWishlist,
+  deleteItemFromList,
+  sendData,
+}: any) => {
   const [user, userDispatch] = useReducer(userReducer, initialUserState);
   const [selectedPerson, setSelectedPerson] = useState<any>({});
   const input = useRef<HTMLInputElement>(null);
@@ -35,27 +33,29 @@ const Wishlist = () => {
   const icon = useRef<HTMLButtonElement>(null);
   const showInput = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    setInputWidth("calc(100% - 28px)");
+    setInputWidth("100%");
     (e.target as HTMLButtonElement).style.display = "none";
   };
+
   useEffect(() => {
-    async function fetchUser() {
+    async function getWishlist() {
       if (category === "draw") {
         try {
           const res = await axios.get(
             "http://localhost:8800/api/users/" + user.selected_person
           );
-          console.log(res);
-          if (!selectedPerson) {
-            setSelectedPerson(res.data);
-          }
+          console.log(res.data.wish_list);
+          setSelectedPerson(res.data);
         } catch (error: any) {
           console.log(error.response.data);
         }
+      } else if (category === "wishlist") {
+        setWishlist(user.wish_list);
+        console.log(user.wish_list);
       }
     }
-    fetchUser();
-  }, [user._id, category, user.selected_person, selectedPerson]);
+    getWishlist();
+  }, [user, category]);
 
   const createWish = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -63,27 +63,15 @@ const Wishlist = () => {
         type: "add_wishes",
         payload: [...user.wish_list, { title: input.current?.value }],
       });
-      sendData();
+      let gift = { title: input.current?.value };
+      sendData(gift);
+      (input.current as HTMLInputElement).value = "";
       setInputWidth("48px");
       setTimeout(() => {
         (icon.current as HTMLButtonElement).style.display = "initial";
       }, 300);
     }
   };
-  const sendData = async () => {
-    try {
-      const res = await axios.put(
-        "http://localhost:8800/api/users/" + user._id,
-        {
-          wish_list: [...user.wish_list, { title: input.current?.value }],
-        }
-      );
-      (input.current as HTMLInputElement).value = "";
-    } catch (error: any) {
-      console.log(error.response.data);
-    }
-  };
-  console.log(user);
 
   return (
     <Container>
@@ -95,32 +83,36 @@ const Wishlist = () => {
         )}
       </Header>
       <Main>
-        {category == "wishlist" && user.wish_list.length < 1 && (
+        {/* {category == "wishlist" && wishlist?.length < 2 && (
           <P>Currently no wishlist</P>
-        )}
-        <List>
-          {category == "wishlist" &&
-            user.wish_list.map((wish: any, index: number) => (
+        )} */}
+        {category == "wishlist" && (
+          <List>
+            {wishlist.map((wish: any, index: number) => (
               <Wish key={index}>
                 {wish.img?.length > 1 && <Img src={wish.img} />}
                 <Title>{wish.title}</Title>
-                <CloseIcon className="icon" />
+                <CloseIcon
+                  className="icon"
+                  onClick={() => deleteItemFromList(index)}
+                />
               </Wish>
             ))}
-        </List>
-        {category === "draw" && !selectedPerson.wish_list && (
-          <P>Currently no wishlist</P>
+          </List>
         )}
-        <List>
-          {category === "draw" &&
-            selectedPerson.wish_list?.map((wish: any, index: number) => (
+        {/* {category === "draw" && !selectedPerson?.wish_list && (
+          <P>Currently no wishlist</P>
+        )} */}
+        {category === "draw" && (
+          <List>
+            {selectedPerson.wish_list?.map((wish: any, index: number) => (
               <Wish key={index}>
-                <Img src={wish?.img} />
+                {wish.img?.length > 1 && <Img src={wish.img} />}
                 <Title>{wish.title}</Title>
-                <CloseIcon className="icon" />
               </Wish>
             ))}
-        </List>
+          </List>
+        )}
         {category === "wishlist" && (
           <>
             <IconContainer

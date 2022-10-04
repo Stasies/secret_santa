@@ -4,7 +4,7 @@ import "./App.css";
 import Normalize from "./utils/Normalize";
 import { ThemeProvider } from "styled-components";
 import { themeColors } from "./utils/Theme";
-import Homepage from "./pages/homepage/Homepage";
+import Registerpage from "./pages/register/Registerpage";
 import Invitation from "./pages/invitation/Invitation";
 import Group from "./pages/group/Group";
 import Draw from "./pages/draw/Draw";
@@ -15,6 +15,7 @@ import Wishpage from "./pages/wishlist/Wishpage";
 import { groupReducer, initialState } from "./utils/groupReducer";
 import { initialUserState, userReducer } from "./utils/userReducer";
 import Userpage from "./pages/userpage/Userpage";
+import Startpage from "./pages/startpage/Startpage";
 
 function App() {
   const [state] = useReducer(groupReducer, initialState);
@@ -33,7 +34,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route index element={<Homepage />} />
+            <Route index element={<Startpage />} />
+            <Route path="/register" element={<Registerpage />} />
             <Route path=":groupId/step:n" element={<Invitation />} />
             <Route path=":groupId/:userId" element={<Group />} />
             <Route path="user" element={<Userpage />} />

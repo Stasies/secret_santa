@@ -25,6 +25,7 @@ export const H3 = styled.h3`
 export const Main = styled.div`
   color: ${({ theme }) => theme.text};
   width: 100%;
+  box-sizing: border-box;
   min-height: 120px;
   display: flex;
   flex-direction: column;
@@ -87,7 +88,7 @@ export const Input = styled.input<{ width: string }>`
 export const List = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100% - 28px);
+  width: 100%;
 `;
 export const Wish = styled.div`
   margin-bottom: 14px;

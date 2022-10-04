@@ -102,6 +102,11 @@ const Group = () => {
       console.log(error);
     }
   };
+
+  const generateLink = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/${groupId}/step:1`);
+    alert("link copied");
+  };
   return (
     <PageTemplate>
       <H1>{state.group_name}</H1>
@@ -125,6 +130,9 @@ const Group = () => {
         </P>
         <P>
           <B href={`/${state._id}/edit/add`}>Add a member</B>
+        </P>
+        <P>
+          <B onClick={generateLink}>Send an invitation link</B>
         </P>
         <P>
           <B href={`/${state._id}/drawn`}>View list of drawn names</B>

@@ -139,6 +139,7 @@ export const AddButton = styled.button`
   cursor: pointer;
   .favIcon {
     color: lightgrey;
+    pointer-events: none;
   }
 `;
 export const About = styled.div`

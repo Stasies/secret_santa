@@ -18,6 +18,7 @@ export const Logo = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 12px;
+  cursor: default;
 `;
 export const H2 = styled.div`
   display: flex;

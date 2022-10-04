@@ -25,17 +25,12 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import axios, { AxiosRequestConfig } from "axios";
 import { initialUserState, userReducer } from "../../utils/userReducer";
 
-// declare module "axios" {
-//   export interface AxiosRequestConfig {
-//     categories: string;
-//   }
-// }
 declare module "axios" {
   export interface AxiosRequestConfig {
     gender: any;
   }
 }
-const GiftFinder = () => {
+const GiftFinder = ({ addToWishlist }: any) => {
   const searchFilters = [
     {
       type: "category",
@@ -47,7 +42,6 @@ const GiftFinder = () => {
     },
   ];
 
-  const filters = [{ type: "", value: "" }];
   const [openMenu, setOpenMenu] = useState<string | boolean>();
   const [cat, setCat] = useState([{ type: "", value: "" }]);
   const [gifts, setGifts] = useState([
@@ -94,7 +88,7 @@ const GiftFinder = () => {
         `http://localhost:8800/api/gifts/filtered?${query}`
       );
       console.log(res.data);
-      setGifts(res.data);
+      setFilteredGifts(res.data);
     } catch (error: any) {
       console.log(error.response.data);
     }
@@ -112,59 +106,33 @@ const GiftFinder = () => {
     }
     console.log(gifts);
   };
-  const createGift = async () => {
-    try {
-      const res = await axios.post("http://localhost:8800/api/gifts/", {
-        title: "sour candy",
-        price: "$3",
-        img: "https://firebasestorage.googleapis.com/v0/b/images-ca2c6.appspot.com/o/food4.jpg?alt=media&token=ebbe8daa-7eb0-411b-ad17-be9e8d6f3057",
-        gender: "women",
-        age: "12-18",
-        category: "food",
-        desc: "sour candy",
-        selectedBy: [""],
-      });
-      console.log(res);
-    } catch (error: any) {
-      console.log(error.response.data.message);
-    }
-  };
-  const addToWishlist = async (
-    e: React.MouseEvent<HTMLButtonElement>,
-    gift: {
-      title: string;
-      img: string;
-      price: string;
-      selectedBy: string[];
-    },
-    id: string
-  ) => {
-    e.stopPropagation();
-    dispatch({
-      type: "add_wishes",
-      payload: [
-        ...user.wish_list,
-        { title: gift.title, img: gift.img, price: gift.price },
-      ],
-    });
-    try {
-      const res = await axios.put(
-        "http://localhost:8800/api/users/" + user._id,
-        {
-          wish_list: [
-            ...user.wish_list,
-            { title: gift.title, img: gift.img, price: gift.price },
-          ],
-        }
-      );
-      const res2 = await axios.put(`http://localhost:8800/api/gifts/` + id, {
-        selectedBy: [...gift.selectedBy, user._id],
-      });
-      console.log(res2);
-    } catch (error: any) {
-      console.log(error.response.data);
-    }
-  };
+
+  // const createGift = async () => {
+  //   try {
+  //     const res = await axios.post("http://localhost:8800/api/gifts/", {
+  //       title: "sour candy",
+  //       price: "$3",
+  //       img: "https://firebasestorage.googleapis.com/v0/b/images-ca2c6.appspot.com/o/food4.jpg?alt=media&token=ebbe8daa-7eb0-411b-ad17-be9e8d6f3057",
+  //       gender: "women",
+  //       age: "12-18",
+  //       category: "food",
+  //       desc: "sour candy",
+  //       selectedBy: [""],
+  //     });
+  //     console.log(res);
+  //   } catch (error: any) {
+  //     console.log(error.response.data.message);
+  //   }
+  // };
+
+  // function addGift(selectedBy: string[]) {
+  //   let index = selectedBy.indexOf(user._id);
+  //   if (index !== -1) {
+  //     selectedBy.splice(index, 1);
+  //   } else {
+  //     selectedBy.push(user._id);
+  //   }
+  // }
   return (
     <Container>
       <H1>Gift Finder</H1>
@@ -213,14 +181,7 @@ const GiftFinder = () => {
             <Img src={gift.img} />
             <About>
               <AddButton onClick={(e) => addToWishlist(e, gift, gift._id)}>
-                <FavoriteIcon
-                  className="favIcon"
-                  style={{
-                    color: gift.selectedBy.includes(user._id)
-                      ? "#6AA4FB"
-                      : "lightgrey",
-                  }}
-                />
+                <FavoriteIcon className="favIcon" />
               </AddButton>
               <Title>{gift.title}</Title>
               <Price>{gift.price}</Price>

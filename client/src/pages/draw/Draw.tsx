@@ -59,8 +59,6 @@ const Draw = () => {
     selectUser();
     return () => {};
   }, [userState.selected_person, state.names.length]);
-
-  console.log(userState);
   return (
     <PageTemplate>
       <H1>My drawn name</H1>
