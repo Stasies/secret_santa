@@ -22,7 +22,16 @@ const UserSchema = new mongoose.Schema(
     },
     wish_list: [
       {
-        type: String,
+        type: Object,
+        img: {
+          type: String,
+        },
+        title: {
+          type: String,
+        },
+        price: {
+          type: String,
+        },
       },
     ],
   },

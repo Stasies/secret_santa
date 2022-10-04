@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState, useRef } from "react";
 import {
   Container,
   Search,
@@ -23,6 +23,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import axios, { AxiosRequestConfig } from "axios";
+import { initialUserState, userReducer } from "../../utils/userReducer";
 
 // declare module "axios" {
 //   export interface AxiosRequestConfig {
@@ -40,24 +41,22 @@ const GiftFinder = () => {
       type: "category",
       contents: ["clothing", "food", "beauty", "toys", "books"],
     },
-    // {
-    //   type: "price",
-    //   contents: ["$0-$15", "$10-$25", "$20-$40", "$30-50"],
-    // },
     {
       type: "age",
       contents: ["0-12", "12-18", "18-25", "25-45"],
     },
-    // {
-    //   type: "gender",
-    //   contents: ["men", "women"],
-    // },
   ];
 
   const filters = [{ type: "", value: "" }];
   const [openMenu, setOpenMenu] = useState<string | boolean>();
   const [cat, setCat] = useState([{ type: "", value: "" }]);
-  const [gifts, setGifts] = useState([{ title: "", price: "", img: "" }]);
+  const [gifts, setGifts] = useState([
+    { title: "", price: "", img: "", _id: "", selectedBy: [""] },
+  ]);
+  const [filteredGifts, setFilteredGifts] = useState(gifts);
+  const input = useRef<any | null>(null);
+  const [user, dispatch] = useReducer(userReducer, initialUserState);
+
   const selectFilter = (
     e: React.MouseEvent<HTMLDivElement>,
     type: string,
@@ -76,6 +75,7 @@ const GiftFinder = () => {
         const res = await axios.get(`http://localhost:8800/api/gifts`);
         if (!gifts[1]) {
           setGifts(res.data);
+          setFilteredGifts(res.data);
         }
       } catch (error) {
         console.log(error);
@@ -83,6 +83,7 @@ const GiftFinder = () => {
     }
     getAllGifts();
   }, []);
+
   const getGiftIdeas = async () => {
     let age = cat[1] ? `age=${cat[1].value}` : "";
     let category = cat[0].value.length > 1 ? `&category=${cat[0].value}` : "";
@@ -99,6 +100,18 @@ const GiftFinder = () => {
     }
   };
 
+  const searchGift = () => {
+    let giftlist = [];
+    if (input.current.value) {
+      giftlist = gifts.filter((item: any) => {
+        if (item.title.includes(input.current.value)) return item;
+      });
+      setFilteredGifts(giftlist);
+    } else {
+      setFilteredGifts(gifts);
+    }
+    console.log(gifts);
+  };
   const createGift = async () => {
     try {
       const res = await axios.post("http://localhost:8800/api/gifts/", {
@@ -116,13 +129,53 @@ const GiftFinder = () => {
       console.log(error.response.data.message);
     }
   };
-  const selectItem = () => {};
+  const addToWishlist = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    gift: {
+      title: string;
+      img: string;
+      price: string;
+      selectedBy: string[];
+    },
+    id: string
+  ) => {
+    e.stopPropagation();
+    dispatch({
+      type: "add_wishes",
+      payload: [
+        ...user.wish_list,
+        { title: gift.title, img: gift.img, price: gift.price },
+      ],
+    });
+    try {
+      const res = await axios.put(
+        "http://localhost:8800/api/users/" + user._id,
+        {
+          wish_list: [
+            ...user.wish_list,
+            { title: gift.title, img: gift.img, price: gift.price },
+          ],
+        }
+      );
+      const res2 = await axios.put(`http://localhost:8800/api/gifts/` + id, {
+        selectedBy: [...gift.selectedBy, user._id],
+      });
+      console.log(res2);
+    } catch (error: any) {
+      console.log(error.response.data);
+    }
+  };
   return (
     <Container>
-      <H1 onClick={createGift}>Gift Finder</H1>
+      <H1>Gift Finder</H1>
       <Search>
-        <SearchInput type="text" placeholder="Search in gift finder" />
-        <SearchButton onClick={getGiftIdeas}>
+        <SearchInput
+          type="text"
+          placeholder="Search in gift finder"
+          ref={input}
+          onChange={searchGift}
+        />
+        <SearchButton onClick={searchGift}>
           <SearchIcon className="icon" />
         </SearchButton>
       </Search>
@@ -155,12 +208,19 @@ const GiftFinder = () => {
         ))}
       </Navigation>
       <Wrapper>
-        {gifts?.map((gift, index: number) => (
+        {filteredGifts?.map((gift, index: number) => (
           <Item key={index}>
             <Img src={gift.img} />
             <About>
-              <AddButton>
-                <FavoriteIcon className="favIcon" />
+              <AddButton onClick={(e) => addToWishlist(e, gift, gift._id)}>
+                <FavoriteIcon
+                  className="favIcon"
+                  style={{
+                    color: gift.selectedBy.includes(user._id)
+                      ? "#6AA4FB"
+                      : "lightgrey",
+                  }}
+                />
               </AddButton>
               <Title>{gift.title}</Title>
               <Price>{gift.price}</Price>

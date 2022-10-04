@@ -92,11 +92,12 @@ export const List = styled.div`
 export const Wish = styled.div`
   margin-bottom: 14px;
   width: 100%;
-  height: 48px;
+  min-height: 48px;
+  height: fit-content;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  gap: 20px;
   box-sizing: border-box;
   padding: 0 14px;
   border-radius: 6px;
@@ -104,6 +105,7 @@ export const Wish = styled.div`
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
   font-size: 18px;
   color: ${({ theme }) => theme.text};
+  position: relative;
   .icon {
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 50%;
@@ -113,5 +115,13 @@ export const Wish = styled.div`
     font-weight: bold;
     stroke: grey;
     stroke-width: 2;
+    position: absolute;
+    right: 14px;
   }
 `;
+
+export const Img = styled.img`
+  width: 80px;
+  height: 80px;
+`;
+export const Title = styled.div``;

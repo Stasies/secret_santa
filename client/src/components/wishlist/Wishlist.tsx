@@ -10,6 +10,8 @@ import {
   Wish,
   IconContainer,
   Input,
+  Img,
+  Title,
 } from "./WishlistElements";
 import CreateIcon from "@mui/icons-material/Create";
 import { clickOptions } from "@testing-library/user-event/dist/click";
@@ -59,7 +61,7 @@ const Wishlist = () => {
     if (e.key === "Enter") {
       userDispatch({
         type: "add_wishes",
-        payload: [...user.wish_list, input.current?.value],
+        payload: [...user.wish_list, { title: input.current?.value }],
       });
       sendData();
       setInputWidth("48px");
@@ -73,7 +75,7 @@ const Wishlist = () => {
       const res = await axios.put(
         "http://localhost:8800/api/users/" + user._id,
         {
-          wish_list: [...user.wish_list, input.current?.value],
+          wish_list: [...user.wish_list, { title: input.current?.value }],
         }
       );
       (input.current as HTMLInputElement).value = "";
@@ -98,9 +100,10 @@ const Wishlist = () => {
         )}
         <List>
           {category == "wishlist" &&
-            user.wish_list.map((wish: string, index: number) => (
+            user.wish_list.map((wish: any, index: number) => (
               <Wish key={index}>
-                {wish}
+                {wish.img?.length > 1 && <Img src={wish.img} />}
+                <Title>{wish.title}</Title>
                 <CloseIcon className="icon" />
               </Wish>
             ))}
@@ -110,9 +113,10 @@ const Wishlist = () => {
         )}
         <List>
           {category === "draw" &&
-            selectedPerson.wish_list?.map((wish: string, index: number) => (
+            selectedPerson.wish_list?.map((wish: any, index: number) => (
               <Wish key={index}>
-                {wish}
+                <Img src={wish?.img} />
+                <Title>{wish.title}</Title>
                 <CloseIcon className="icon" />
               </Wish>
             ))}

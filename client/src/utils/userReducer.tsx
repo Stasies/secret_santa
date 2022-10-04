@@ -6,7 +6,7 @@ export const user = {
   groupId: "",
   group_name: "",
   selected_person: "",
-  wish_list: [""],
+  wish_list: { title: "" },
 };
 const jsonUser = localStorage.getItem("user");
 export const initialUserState = jsonUser !== null ? JSON.parse(jsonUser) : user;
